@@ -7,13 +7,21 @@
 
             <x-nav-link url="/" :active="request()->is('/')">Home</x-nav-link>
             <x-nav-link url="/jobs" :active="request()->is('jobs')">All Jobs</x-nav-link>
+             @auth
             <x-nav-link url="/jobs/saved" :active="request()->is('jobs/saved')">Saved Jobs</x-nav-link>
+            <x-nav-link url="/dashboard" :active="request()->is('dashboard')"> Dashboard</x-nav-link>
+
+                <x-nav-link url="/profile" :active="request()->is('profile')"><i class="fa fa-user mr-1"></i> Profile
+                </x-nav-link>
+            <x-logout-button/>
+                <x-button-link url="/jobs/create" icon="edit">Create Job</x-button-link>
+            @else
             <x-nav-link url="/login" :active="request()->is('login')">Login</x-nav-link>
             <x-nav-link url="/register" :active="request()->is('register')">Register</x-nav-link>
-            <x-nav-link url="/profile" :active="request()->is('profile')"><i class="fa fa-user mr-1"></i> Profile
-            </x-nav-link>
+                @endauth
 
-                <x-button-link url="/jobs/create" icon="edit">Create Job</x-button-link>
+
+
             </a>
         </nav>
         <button id="hamburger"  @click="open = !open" class="text-white md:hidden flex items-center">
@@ -35,6 +43,7 @@
             href="{{ url('/jobs/create') }}"
             class="block px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black"
         >
+            <x-logout-button/>
             <i class="fa fa-edit"></i> Create Job
         </a>
     </div>
