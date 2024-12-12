@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
 use App\Http\Controllers\JobController;
@@ -43,13 +45,20 @@ Route::resource('jobs', JobController::class)->middleware('auth')
 
 Route::resource('jobs', JobController::class)->except(['create', 'edit', 'destroy']);
 
-Route::get('/register',[RegisterController::class, 'register'])->name('register');
-Route::post('/register',[RegisterController::class, 'store'])->name('register.store');
-Route::get('/login',[LoginController::class, 'login'])->name('login');
-Route::post('/login',[LoginController::class, 'authenticate'])->name('login.authenticate');
+
 Route::post('/logout',[LoginController::class, 'logout'])->name('logout');
 
+Route::middleware('guest')->group(function(){
+    Route::get('/register',[RegisterController::class, 'register'])->name('register');
+    Route::post('/register',[RegisterController::class, 'store'])->name('register.store');
+    Route::get('/login',[LoginController::class, 'login'])->name('login');
+    Route::post('/login',[LoginController::class, 'authenticate'])->name('login.authenticate');
+});
 
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
 Route::get('/db-test', function () {
     try {
         DB::connection()->getPdo();
