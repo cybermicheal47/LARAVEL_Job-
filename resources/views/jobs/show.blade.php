@@ -70,19 +70,117 @@
                         @endif
                     </div>
                 @endif
-                <p class="my-5">
-                    Put "Job Application" as the subject of your email and attach your
-                    resume.
-                </p>
-                <a
-                    href="mailto:{{$job->contact_email}}"
-                    class="block w-full text-center px-5 py-2.5 shadow-sm rounded border text-base font-medium cursor-pointer text-indigo-700 bg-indigo-100 hover:bg-indigo-200"
-                >
-                    Apply Now
-                </a>
-            </div>
+                    <!-- Applicant Form -->
+                    @auth
+                    <div x-data="{ open: false }" id="applicant-form">
+                        <button
+                            @click="open = true"
+                            class="block w-full text-center px-5 py-2.5 mt-5 shadow-sm rounded border text-base font-medium cursor-pointer text-indigo-700 bg-indigo-100 hover:bg-indigo-200"
+                        >
+                            Apply Now
+                        </button>
 
-            <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                        <div
+                            x-show="open"
+                            class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
+                        >
+                            <div @click.away="open = false" class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+                                <h3 class="text-lg font-semibold mb-4">Apply for {{ $job->title }}</h3>
+
+                                <form
+                                    action="{{ route('applicants.store', $job->id) }}"
+                                    method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="mb-4">
+                                        <label for="full_name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                        <input
+                                            type="text"
+                                            id="full_name"
+                                            name="full_name"
+                                            required
+                                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="contact_phone" class="block text-sm font-medium text-gray-700">Contact Phone</label>
+                                        <input
+                                            type="text"
+                                            id="contact_phone"
+                                            name="contact_phone"
+                                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="contact_email" class="block text-sm font-medium text-gray-700">Contact Email</label>
+                                        <input
+                                            type="email"
+                                            id="contact_email"
+                                            name="contact_email"
+                                            required
+                                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                                        <textarea
+                                            id="message"
+                                            name="message"
+                                            rows="4"
+                                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                                        <input
+                                            type="text"
+                                            id="location"
+                                            name="location"
+                                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        />
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="resume" class="block text-sm font-medium text-gray-700">Upload Your Resume (PDF)</label>
+                                        <input
+                                            type="file"
+                                            id="resume"
+                                            name="resume"
+                                            accept=".pdf"
+                                            required
+                                            class="mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        />
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+                                    >
+                                        Submit Application
+                                    </button>
+                                    <button
+                                        type="button"
+                                        @click="open = false"
+                                        class="ml-2 bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded-md"
+                                    >
+                                        Cancel
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    @else
+                        <p class="my-5">
+                            You Must Be Logged In To Apply
+                        </p>
+                    @endauth
+
+                    <div class="bg-white p-6 rounded-lg shadow-md mt-6">
                 <div id="map"></div>
             </div>
         </section>

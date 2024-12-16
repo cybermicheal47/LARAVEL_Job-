@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -49,5 +50,10 @@ class User extends Authenticatable
 
     public function jobListings():HasMany {
    return $this->hasMany(JobListing::class);
+    }
+
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Applicant::class, 'user_id');
     }
 }
