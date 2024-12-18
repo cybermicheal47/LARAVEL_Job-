@@ -189,7 +189,7 @@
             <h3 class="text-xl text-center mb-4 font-bold">Company Info</h3>
             @if ($job->company_logo)
                 <img
-                    src="/images/{{$job->company_logo}}"
+                    src="{{ asset('storage/' . $job->company_logo) }}"
                     alt="{{$job->company_name}}"
                     class="w-full rounded-lg mb-4 m-auto"
                 />
@@ -205,11 +205,11 @@
                 <p class="text-gray-700 text-lg mt-2">Phone: {{$job->company_phone}}</p>
             @endif
 
-            <a
-                href=""
-                class="mt-10 bg-blue-500 hover:bg-blue-600 text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center"
-            ><i class="fas fa-bookmark mr-3"></i> Bookmark Listing</a
-            >
+{{--            <a--}}
+{{--                href=""--}}
+{{--                class="mt-10 bg-blue-500 hover:bg-blue-600 text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center"--}}
+{{--            ><i class="fas fa-bookmark mr-3"></i> Bookmark Listing</a--}}
+{{--            >--}}
         </aside>
     </div>
 </x-layout>
